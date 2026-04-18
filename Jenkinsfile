@@ -17,7 +17,8 @@ pipeline {
         stage('Cleanup Workspace') {
             steps {
                 script {
-                    clean_ws()
+                    // Changed from clean_ws()
+                    cleanUpWorkspace()
                 }
             }
         }
@@ -25,7 +26,8 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    clone("https://github.com/singhajay210208/Qualibytes-Ecommerce-Project.git", "main")
+                    // Changed from clone()
+                    checkoutRepo("https://github.com/singhajay210208/Qualibytes-Ecommerce-Project.git", "main")
                 }
             }
         }
@@ -35,19 +37,10 @@ pipeline {
             steps {
                 script {
                     echo "Cleaning up old Docker images, containers & volumes..."
-
-                    // Remove dangling images
                     sh "docker image prune -f"
-
-                    // Remove unused images older than 12 hours
                     sh "docker image prune -a --force --filter \"until=12h\""
-
-                    // Remove stopped containers
                     sh "docker container prune -f"
-
-                    // Remove unused volumes (safe)
                     sh "docker volume prune -f"
-
                     echo "Cleanup completed successfully!"
                 }
             }
@@ -59,7 +52,8 @@ pipeline {
                 stage('Build Main App Image') {
                     steps {
                         script {
-                            docker_build(
+                            // Changed from docker_build()
+                            buildDockerImage(
                                 imageName: env.DOCKER_IMAGE_NAME,
                                 imageTag: env.DOCKER_IMAGE_TAG,
                                 dockerfile: 'Dockerfile',
@@ -72,7 +66,8 @@ pipeline {
                 stage('Build Migration Image') {
                     steps {
                         script {
-                            docker_build(
+                            // Changed from docker_build()
+                            buildDockerImage(
                                 imageName: env.DOCKER_MIGRATION_IMAGE_NAME,
                                 imageTag: env.DOCKER_IMAGE_TAG,
                                 dockerfile: 'scripts/Dockerfile.migration',
@@ -87,7 +82,8 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 script {
-                    run_tests()
+                    // Changed from run_tests()
+                    runUnitTests()
                 }
             }
         }
@@ -95,7 +91,8 @@ pipeline {
         stage('Security Scan with Trivy') {
             steps {
                 script {
-                    trivy_scan()
+                    // Changed from trivy_scan()
+                    trivyScan()
                 }
             }
         }
@@ -106,7 +103,8 @@ pipeline {
                 stage('Push Main App Image') {
                     steps {
                         script {
-                            docker_push(
+                            // Changed from docker_push()
+                            pushDockerImage(
                                 imageName: env.DOCKER_IMAGE_NAME,
                                 imageTag: env.DOCKER_IMAGE_TAG,
                                 credentials: 'docker-hub-credentials'
@@ -118,7 +116,8 @@ pipeline {
                 stage('Push Migration Image') {
                     steps {
                         script {
-                            docker_push(
+                            // Changed from docker_push()
+                            pushDockerImage(
                                 imageName: env.DOCKER_MIGRATION_IMAGE_NAME,
                                 imageTag: env.DOCKER_IMAGE_TAG,
                                 credentials: 'docker-hub-credentials'
@@ -132,7 +131,8 @@ pipeline {
         stage('Update Kubernetes Manifests') {
             steps {
                 script {
-                    update_k8s_manifests(
+                    // Changed from update_k8s_manifests()
+                    updateK8sManifests(
                         imageTag: env.DOCKER_IMAGE_TAG,
                         manifestsPath: 'kubernetes',
                         gitCredentials: 'github-credentials',
