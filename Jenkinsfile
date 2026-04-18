@@ -5,11 +5,11 @@ pipeline {
     
     environment {
         // Updated image names for QBShop project (DEV)
-        DOCKER_IMAGE_NAME = 'satyamsri/qbshop-app'
-        DOCKER_MIGRATION_IMAGE_NAME = 'satyamsri/qbshop-migration'
+        DOCKER_IMAGE_NAME = 'singhajay210/qbshop-app'
+        DOCKER_MIGRATION_IMAGE_NAME = 'singhajay210/qbshop-migration'
         DOCKER_IMAGE_TAG = "${BUILD_NUMBER}"
         GITHUB_CREDENTIALS = credentials('github-credentials')
-        GIT_BRANCH = "dev"
+        GIT_BRANCH = "main"
     }
     
     stages {
@@ -25,7 +25,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    clone("https://github.com/Satyams-git/Qualibytes-Ecommerce.git", "dev")
+                    clone("https://github.com/singhajay210208/Qualibytes-Ecommerce-Project.git", "main")
                 }
             }
         }
@@ -136,8 +136,8 @@ pipeline {
                         imageTag: env.DOCKER_IMAGE_TAG,
                         manifestsPath: 'kubernetes',
                         gitCredentials: 'github-credentials',
-                        gitUserName: 'Jenkins CI',
-                        gitUserEmail: 'jenkins@ci.local'
+                        gitUserName: 'singhajay210208',
+                        gitUserEmail: 'singhajay210208@gmail.com'
                     )
                 }
             }
