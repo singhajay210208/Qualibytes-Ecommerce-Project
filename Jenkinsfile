@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // Changed from clone()
-                    checkoutRepo("https://github.com/singhajay210208/Qualibytes-Ecommerce-Project.git", branch: "main")
+                    checkoutRepo("https://github.com/singhajay210208/Qualibytes-Ecommerce-Project.git")
                 }
             }
         }
