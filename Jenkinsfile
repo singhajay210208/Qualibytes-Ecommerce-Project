@@ -87,13 +87,15 @@ pipeline {
         }
         
         stage('Security Scan with Trivy') {
-            steps {
-                script {
-                    // Changed from trivy_scan()
-                    trivyScan()
-                }
-            }
+    steps {
+        script {
+            echo "Scanning Docker Image: ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}"
+            
+            // सीधे शेल कमांड का उपयोग करें
+            sh "trivy image --severity HIGH,CRITICAL ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}"
         }
+    }
+}
         
         stage('Push Docker Images') {
             parallel {
