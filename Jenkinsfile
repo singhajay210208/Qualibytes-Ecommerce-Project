@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     // Changed from clean_ws()
-                    cleanUpWorkspace()
+                    cleanupWorkspace()
                 }
             }
         }
