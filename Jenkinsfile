@@ -25,10 +25,8 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                script {
-                    // Changed from clone()
-                    checkoutRepo(repoUrl: "https://github.com/singhajay210208/Qualibytes-Ecommerce-Project.git")
-                }
+                git branch: "main", url: "https://github.com/singhajay210208/Qualibytes-Ecommerce-Project.git"
+                
             }
         }
 
